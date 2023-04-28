@@ -11,7 +11,7 @@ public class Service {
     Repository repository;
 
     public void addOrder(Order order) {
-        repository.addOrder(order.getId(),order);
+        repository.addOrder(order);
     }
 
     public void addPartner(String  partnerId) {
@@ -66,16 +66,18 @@ public class Service {
     }
 
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String currentTime,String partnerId) {
-        DeliveryPartner partner = repository.partnerMap.get(partnerId);
-        if(repository.partnerMap.containsKey(partnerId) && repository.pair.containsKey(partner))
-        return repository.getOrdersLeftAfterGivenTimeByPartnerId(currentTime,partnerId);
+        if(repository.partnerMap.containsKey(partnerId)) {
+            DeliveryPartner partner = repository.partnerMap.get(partnerId);
+            if (repository.partnerMap.containsKey(partnerId) && repository.pair.containsKey(partner))
+                return repository.getOrdersLeftAfterGivenTimeByPartnerId(currentTime, partnerId);
+        }
         return null;
     }
 
     public String getLastDeliveryTimeByPartnerId(String id) {
         DeliveryPartner partner = repository.partnerMap.get(id);
         if(repository.partnerMap.containsKey(id) && repository.pair.containsKey(partner))
-        return repository.getLastDeliveryTimeByPartnerId(id);
+            return repository.getLastDeliveryTimeByPartnerId(id);
         return null;
     }
 
