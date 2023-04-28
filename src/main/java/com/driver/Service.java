@@ -11,7 +11,7 @@ public class Service {
     Repository repository;
 
     public void addOrder(Order order) {
-        repository.addOrder(order.getId(),order);
+        repository.addOrder(order);
     }
 
     public void addPartner(String  partnerId) {
