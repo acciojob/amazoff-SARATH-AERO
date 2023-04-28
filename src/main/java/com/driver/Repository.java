@@ -12,11 +12,8 @@ public class Repository {
 
     Map<DeliveryPartner,List<Order>> pair = new HashMap<>();
 
-    public void addOrder(Order order) {
-        if(order != null) {
-            String id = order.getId();
-            orderMap.put(id, order);
-        }
+    public void addOrder(String id, Order order) {
+        orderMap.put(id, order);
     }
     public void addPartner(String id)  {
         DeliveryPartner partner = new DeliveryPartner(id);
