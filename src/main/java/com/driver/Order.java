@@ -23,22 +23,22 @@ public class Order {
 
     public int getDeliveryTime() {return deliveryTime;}
 
-    public int convertStringDeliveryTimetoInt(String currentTime) {
+    public int convertStringDeliveryTimetoInt(String time1) {
 //        List<String> list = Arrays.asList(deliveryTime.split(":"));
 //        System.out.println(list.toString());
 //        int hh = Integer.parseInt(list.get(0));
 //        int mm = Integer.parseInt(list.get(1));
 
 //        return  hh * 60 + mm;
-        int hh = Integer.parseInt(currentTime.substring(0,2));
-        int mm = Integer.parseInt(currentTime.substring(3));
+        int hh = Integer.parseInt(time1.substring(0,2));
+        int mm = Integer.parseInt(time1.substring(3));
         return  hh * 60 + mm;
 
     }
 
-    public String convertIntToStringDeliveryTime(int deliveryTime) {
-        int hh = deliveryTime / 60;
-        int mm = deliveryTime % 60;
+    public String convertIntToStringDeliveryTime(int time2) {
+        int hh = time2 / 60;
+        int mm = time2 % 60;
         String HH = String.valueOf(hh);
         String MM = String.valueOf(mm);
         if(HH.length() == 1)

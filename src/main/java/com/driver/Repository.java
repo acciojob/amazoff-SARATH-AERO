@@ -49,14 +49,19 @@ public class Repository {
     }
 
     public int getOrderCountByPartnerId(String id) {
-        DeliveryPartner partner = partnerMap.get(id);
-        return  pair.get(partner) == null ? 0 :pair.get(partner).size();
+        if(partnerMap.containsKey(id)) {
+            DeliveryPartner partner = partnerMap.get(id);
+            return partner.getNumberOfOrders();
+        }
+        return 0;
     }
 
     public List<Order> getOrdersByPartnerId(String partnerId) {
-        DeliveryPartner partner = partnerMap.get(partnerId);
-        if(partnerMap.containsKey(partnerId) && pair.containsKey(partner))
-            return pair.get(partner);
+        if(partnerMap.containsKey(partnerId)) {
+            DeliveryPartner partner = partnerMap.get(partnerId);
+            if (partnerMap.containsKey(partnerId) && pair.containsKey(partner))
+                return pair.get(partner);
+        }
         return null;
     }
 
@@ -68,6 +73,8 @@ public class Repository {
 
     public int getCountOfUnassignedOrders() {
         int countInPair = 0;
+        if(pair.size() == 0)
+            return orderMap.size();
         for (List<Order> orderList : pair.values()) {
             countInPair += orderList.size();
             }
@@ -85,26 +92,31 @@ public class Repository {
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String currentTime,String partnerId) {
         Integer count = 0;
         int currentInttime = convertStringDeliveryTimetoInt(currentTime);
-        DeliveryPartner partner = partnerMap.get(partnerId);
-        List<Order> orders1 = pair.get(partner);
+        if(partnerMap.containsKey(partnerId)) {
+            DeliveryPartner partner = partnerMap.get(partnerId);
+            List<Order> orders1 = pair.get(partner);
             for (Order order2 : orders1) {
-                if(order2.getDeliveryTime() > currentInttime)
+                if (order2.getDeliveryTime() > currentInttime)
                     count++;
             }
+        }
 
         return count;
     }
 
     public String getLastDeliveryTimeByPartnerId(String id) {
-        DeliveryPartner partner = partnerMap.get(id);
-        List<Order> orderList = pair.get(partner);
-        int time = 0;
-        for (Order order2 : orderList) {
-            time = Math.max(time, order2.getDeliveryTime());
+        if(partnerMap.containsKey(id)) {
+            DeliveryPartner partner = partnerMap.get(id);
+            List<Order> orderList = pair.get(partner);
+            int time = 0;
+            for (Order order2 : orderList) {
+                time = Math.max(time, order2.getDeliveryTime());
+            }
+            if (time == 0)
+                return null;
+            return convertIntToStringDeliveryTime(time);
         }
-        if(time == 0)
-            return null;
-        return convertIntToStringDeliveryTime(time);
+        return null;
     }
 
     public void deletePartnerById(String id){
@@ -144,9 +156,10 @@ public class Repository {
 
     }
 
-    public String convertIntToStringDeliveryTime(int deliveryTime) {
-        int hh = deliveryTime / 60;
-        int mm = deliveryTime % 60;
+
+    public String convertIntToStringDeliveryTime(int time1) {
+        int hh = time1 / 60;
+        int mm = time1 % 60;
         String HH = String.valueOf(hh);
         String MM = String.valueOf(mm);
         if(HH.length() == 1)
