@@ -14,18 +14,20 @@ public class Repository {
 
     Map<DeliveryPartner,List<Order>> pair = new HashMap<>();
 
-    public void addOrder(Order order) {
+    public String addOrder(Order order) {
         if(order != null) {
             String id = order.getId();
             orderMap.put(id, order);
         }
+        return "added";
     }
-    public void addPartner(String id)  {
+    public String  addPartner(String id)  {
         DeliveryPartner partner = new DeliveryPartner(id);
         partnerMap.put(id, partner);
+        return "added";
     }
 
-    public void addOrderPartnerPair(Order order, DeliveryPartner partner) {
+    public String  addOrderPartnerPair(Order order, DeliveryPartner partner) {
         if(partnerMap.containsKey(partner.getId()) && orderMap.containsKey(order.getId())) {
             if (pair.containsKey(partner)) {
                 List<Order> orderList = pair.get(partner);
@@ -39,6 +41,7 @@ public class Repository {
         partner.setNumberOfOrders(partner.getNumberOfOrders()+1);
             partnerMap.put(partner.getId(),partner);
         }
+        return "added";
     }
 
     public Order getOrderById(String id) {
