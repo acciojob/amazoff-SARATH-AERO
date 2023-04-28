@@ -37,8 +37,11 @@ public class OrderController {
     public ResponseEntity<String> addOrderPartnerPair(@RequestParam String orderId, @RequestParam String partnerId){
 
         //This is basically assigning that order to that partnerId
-        service.addOrderPartnerPair(orderId, partnerId);
-        return new ResponseEntity<>("New order-partner pair added successfully", HttpStatus.CREATED);
+        if(service.addOrderPartnerPair(orderId, partnerId)){
+            return new ResponseEntity<>("New order-partner pair added successfully", HttpStatus.CREATED);
+        } else
+            return new ResponseEntity<>("partner or order not presented in the database", HttpStatus.CREATED);
+
     }
 
     @GetMapping("/get-order-by-id/{orderId}")

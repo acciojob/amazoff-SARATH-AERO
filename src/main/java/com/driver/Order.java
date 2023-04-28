@@ -32,8 +32,6 @@ public class Order {
 //        return  hh * 60 + mm;
         int hh = Integer.parseInt(currentTime.substring(0,2));
         int mm = Integer.parseInt(currentTime.substring(3));
-        System.out.println(hh +"    "+mm);
-        System.out.println(currentTime);
         return  hh * 60 + mm;
 
     }

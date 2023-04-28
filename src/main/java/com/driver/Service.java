@@ -18,10 +18,14 @@ public class Service {
         repository.addPartner(partnerId);
     }
 
-    public void addOrderPartnerPair(String orderId, String partnerId) {
-        Order order = repository.orderMap.get(orderId);
-        DeliveryPartner partner = repository.partnerMap.get(partnerId);
-        repository.addOrderPartnerPair(order,partner);
+    public boolean addOrderPartnerPair(String orderId, String partnerId) {
+        if(repository.orderMap.containsKey(orderId) && repository.partnerMap.containsKey(partnerId)) {
+            Order order = repository.orderMap.get(orderId);
+            DeliveryPartner partner = repository.partnerMap.get(partnerId);
+            repository.addOrderPartnerPair(order, partner);
+            return true;
+        }
+        return false;
     }
 
     public Order getOrderById(String id) {
@@ -38,10 +42,14 @@ public class Service {
 
     public List<String> getOrdersByPartnerId(String partnerId) {
         List<String> orders = new ArrayList<>();
-        List<Order> orderList = repository.getOrdersByPartnerId(partnerId);
-        for(Order order1 : orderList)
-            orders.add(order1.getId());
-        return orders;
+        DeliveryPartner partner = repository.partnerMap.get(partnerId);
+        if(repository.partnerMap.containsKey(partnerId) && repository.pair.containsKey(partner)) {
+            List<Order> orderList = repository.getOrdersByPartnerId(partnerId);
+            for (Order order1 : orderList)
+                orders.add(order1.getId());
+            return orders;
+        }
+        return null;
     }
 
     public List<String> getAllOrders() {
@@ -58,11 +66,17 @@ public class Service {
     }
 
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String currentTime,String partnerId) {
+        DeliveryPartner partner = repository.partnerMap.get(partnerId);
+        if(repository.partnerMap.containsKey(partnerId) && repository.pair.containsKey(partner))
         return repository.getOrdersLeftAfterGivenTimeByPartnerId(currentTime,partnerId);
+        return null;
     }
 
     public String getLastDeliveryTimeByPartnerId(String id) {
+        DeliveryPartner partner = repository.partnerMap.get(id);
+        if(repository.partnerMap.containsKey(id) && repository.pair.containsKey(partner))
         return repository.getLastDeliveryTimeByPartnerId(id);
+        return null;
     }
 
     public void deletePartnerById(String id) {
